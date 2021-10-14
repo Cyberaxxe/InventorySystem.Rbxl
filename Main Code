@@ -1,0 +1,66 @@
+local player = game.Players.LocalPlayer
+local Character = player.Character or player.CharacterAdded:Wait()
+
+local pickables = game.Workspace:GetChildren()
+
+local MainFrame = script.Parent.MainFrame
+local SeletectItem = script.Parent.MainFrame.SelectedItemPreview
+local invVisual = script.Parent.MainFrame.InventoryVisual
+local CloseButton = script.Parent.MainFrame.TextButton
+
+for i, itemActivated in pairs(pickables) do
+	if  itemActivated:FindFirstChild("ProximityPrompt") then
+		itemActivated.ProximityPrompt.Triggered:Connect(function()
+			
+			itemActivated.CanCollide = false
+			
+			local pickableItemPreview = script.Parent.MainFrame.InventoryVisual:GetChildren()
+			local newFrame = Instance.new("TextButton", script.Parent.MainFrame.InventoryVisual)
+			newFrame.Text = itemActivated.Name
+			
+			local TSS = game:GetService("TweenService")
+			local newInfo = TweenInfo.new(
+				
+				0.5, 
+				Enum.EasingStyle.Elastic,
+				Enum.EasingDirection.In,
+				0,
+				false,
+				0
+				
+			)
+			
+			local endInfo = {["Position"] = player.Character.HumanoidRootPart.Position}
+			local PlayTween = TSS:Create(itemActivated, newInfo, endInfo)
+			PlayTween:Play()
+			
+			wait(0.3)
+			
+			itemActivated:Destroy(a)
+			
+			local itemTools = game.ReplicatedStorage:WaitForChild("ItemTools")
+			local DiamondItem = itemTools:WaitForChild("DiamondTool")
+			local MetalItem = itemTools:WaitForChild("MetalTool")
+			
+			newFrame.MouseButton1Click:Connect(function()
+				
+			end)
+		end)
+	end
+end
+
+local xd = script.Parent.MainFrame:GetChildren()
+
+script.Parent.TextButton.MouseButton1Click:Connect(function()
+	for i, Guis in pairs(xd) do
+		Guis.Visible = true
+	end
+	MainFrame.Visible = true
+end)
+
+script.Parent.MainFrame.TextButton.MouseButton1Click:Connect(function()
+	for i, Guis in pairs(xd) do
+		Guis.Visible = false
+	end
+	MainFrame.Visible = false
+end)
