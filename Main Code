@@ -1,10 +1,10 @@
 local player = game.Players.LocalPlayer
 local Character = player.Character or player.CharacterAdded:Wait()
 
-local pickables = game.Workspace:GetChildren()
+local pickables = game.Workspace:GetDescendants()
 
 local MainFrame = script.Parent.MainFrame
-local SeletectItem = script.Parent.MainFrame.SelectedItemPreview
+
 local invVisual = script.Parent.MainFrame.InventoryVisual
 local CloseButton = script.Parent.MainFrame.TextButton
 
@@ -17,37 +17,62 @@ for i, itemActivated in pairs(pickables) do
 			local pickableItemPreview = script.Parent.MainFrame.InventoryVisual:GetChildren()
 			local newFrame = Instance.new("TextButton", script.Parent.MainFrame.InventoryVisual)
 			newFrame.Text = itemActivated.Name
+			newFrame.Parent = invVisual
 			
-			local TSS = game:GetService("TweenService")
-			local newInfo = TweenInfo.new(
-				
-				0.5, 
-				Enum.EasingStyle.Elastic,
-				Enum.EasingDirection.In,
-				0,
-				false,
-				0
-				
-			)
+			itemActivated:Destroy()
 			
-			local endInfo = {["Position"] = player.Character.HumanoidRootPart.Position}
-			local PlayTween = TSS:Create(itemActivated, newInfo, endInfo)
-			PlayTween:Play()
+			local seletection = {newFrame}
 			
-			wait(0.3)
-			
-			itemActivated:Destroy(a)
+			print("You Picked "..itemActivated.Name)
 			
 			local itemTools = game.ReplicatedStorage:WaitForChild("ItemTools")
 			local DiamondItem = itemTools:WaitForChild("DiamondTool")
 			local MetalItem = itemTools:WaitForChild("MetalTool")
 			
-			newFrame.MouseButton1Click:Connect(function()
-				
-			end)
+			for i, itemSelected in pairs(seletection) do
+				itemSelected.MouseButton1Click:Connect(function()
+					print("You Removed ".. itemSelected.Text)
+					itemSelected:Destroy()
+					
+					--Ik i couldve used a k, v loop, but I kinda got lazy and went full on yandere dev lol
+					
+					if itemSelected.Text == 'Diamond' then
+						local Diamondxd = game.ReplicatedStorage.GUI.Diamond:Clone()
+						Diamondxd.Parent = workspace
+						Diamondxd.Position = Character.HumanoidRootPart.Position
+						
+					elseif itemSelected.Text == 'Metal' then
+						local Metalxd = game.ReplicatedStorage.GUI.Metal:Clone()
+						Metalxd.Parent = workspace
+						Metalxd.Position = Character.HumanoidRootPart.Position
+						
+					elseif itemSelected.Text == 'Brick' then
+						local Brickxd = game.ReplicatedStorage.GUI.Brick:Clone()
+						Brickxd.Parent = workspace
+						Brickxd.Position = Character.HumanoidRootPart.Position
+						
+					elseif itemSelected.Text == 'Aerogel' then
+						local Aerogelxd = game.ReplicatedStorage.GUI.Aerogel:Clone()
+						Aerogelxd.Parent = workspace
+						Aerogelxd.Position = Character.HumanoidRootPart.Position
+						
+					elseif itemSelected.Text == 'Concrete' then
+						local Concretexd = game.ReplicatedStorage.GUI.Concrete:Clone()
+						Concretexd.Parent = workspace
+						Concretexd.Position = Character.HumanoidRootPart.Position
+						
+					elseif itemSelected.Text == 'Holy Glowing Milk' then
+						local HGL = game.ReplicatedStorage.GUI.HGL:Clone()
+						HGL.Parent = workspace
+						HGL.Position = Character.HumanoidRootPart.Position
+						
+					end
+				end)
+			end
 		end)
 	end
 end
+
 
 local xd = script.Parent.MainFrame:GetChildren()
 
